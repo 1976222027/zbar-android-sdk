@@ -1,5 +1,8 @@
 apply plugin: rootProject.ext.plugins.library
-
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'//jcent
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.1976222027'//gradlew install
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -34,9 +37,51 @@ android {
         }
     }
 }
+//jcent
+publish {
+    repoName = 'maven'//maven仓库名
+    userOrg = 'mahongyin'// 用户所在组织,好像是用户名
+    groupId = 'com.mahongyin'// 包名
+    artifactId = 'zbar-camera'// library项目的名字
+    publishVersion = '1.0.0'// 版本
+    desc = 'build zbar SDK'//不中文
+    website = "https://github.com/1976222027/zbar-android-sdk"//你的开源地址，注意，一定要用GitHub地址
+}
+//gradlew clean build bintrayUpload -PbintrayUser=mahongyin -PbintrayKey=KEY -PdryRun=false
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':zbar')
 //    implementation  'com.mahongyin.zbar:zbar:1.0.0'
+}
+//---------------------------------------------下面的必加，加上下面的作用是在上传后会带上注释，不然会发现没有注释
+
+
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 制作文档(Javadoc)
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
