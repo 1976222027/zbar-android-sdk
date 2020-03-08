@@ -14,9 +14,9 @@
 Zbar开源地址: [https://github.com/ZBar/ZBar](https://github.com/ZBar/ZBar)  
 libiconv下载: [https://www.gnu.org/software/libiconv](https://www.gnu.org/software/libiconv)  
 
-我的主页：[www.mahongyin.com](http://www.mahongyin.com)
-我的博客：[blog.mahongyin.com](http://blog.mahongyin.com)
-
+[我的主页：](http://github.com/1976222027)
+[我的博客：](https://www.jianshu.com/u/aba4338c7578)
+[ ![Download](https://api.bintray.com/packages/mahongyin/mylib/zbar/images/download.svg?version=1.0.0) ](https://bintray.com/mahongyin/mylib/zbar/1.0.0/link)
 技术交流群：[547839514](https://jq.qq.com/?_wv=1027&k=48Yg8H1)  
 
 # 使用
@@ -31,7 +31,7 @@ libiconv下载: [https://www.gnu.org/software/libiconv](https://www.gnu.org/soft
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:zbar:1.0.0'
+implementation 'com.mahongyin:zbar:1.0.0'
 ```
 * Maven
 ```groovy
