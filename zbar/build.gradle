@@ -1,0 +1,67 @@
+apply plugin: rootProject.ext.plugins.library
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.libraryMinSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        ndk{
+            //生成so库名称 也是System.load
+            moduleName "zbar"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    resourcePrefix 'zbar_'
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+            aidl.srcDirs = ['src/main/aidl']
+            assets.srcDirs = ['src/main/assets']
+            jni.srcDirs = []//不用项目自动生成jni目录
+            jniLibs.srcDirs = ['src/main/jniLibs']
+            resources.srcDirs = ['src/main/resources']
+            renderscript.srcDirs = ['src/main/rs']
+        }
+
+    }
+
+}
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn CopyToJniLibs
+}
+//构建so
+task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def ndkDir = properties.getProperty('ndk.dir')
+    commandLine "$ndkDir/ndk-build.cmd",
+            "NDK_PROJECT_PATH=$projectDir.absolutePath\\build",
+            "APP_BUILD_SCRIPT=$projectDir.absolutePath\\src\\main\\jni\\Android.mk",
+            "NDK_APPLICATION_MK=$projectDir.absolutePath\\src\\main\\jni\\Application.mk"
+    //你自己的mk文件目录
+}
+
+// copy so库到指定的目录
+task CopyToJniLibs(type: Copy, dependsOn: 'ndkBuild', description: 'copy the native libs to jniLibs') {
+    from fileTree(dir: file(buildDir.absolutePath + '/libs'), include: '**/*.so')
+    into file('src/main/jniLibs')
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

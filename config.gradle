@@ -1,0 +1,55 @@
+ext {
+    plugins = [
+            library    : 'com.android.library',
+            application: 'com.android.application',
+            maven      : 'com.github.dcendents.android-maven',
+            bintray    : 'com.jfrog.bintray'
+    ]
+
+    android = [
+            applicationId       : "com.mahongyin.zbar.sample",
+            compileSdkVersion   : 28,
+            buildToolsVersion   : "29.0.3",
+
+            libraryMinSdkVersion: 16,
+            sampleMinSdkVersion : 19,
+            targetSdkVersion    : 28,
+
+            versionCode         : 1,
+            versionName         : "1.0",
+    ]
+
+    maven = [
+            // library
+            version       : "1.0.0",
+
+            siteUrl       : 'https://github.com/mahongyin/android-zbar-sdk',
+            gitUrl        : 'git@github.com:mahongyin/android-zbar-sdk.git',
+
+            group         : "com.mahongyin.zbar",
+
+            // project
+            packaging     : 'aar',
+            name          : 'zbar',
+            description   : 'Zbar for android',
+
+            // project.license
+            licenseName   : 'The Apache Software License, Version 2.0',
+            licenseUrl    : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
+
+            // project.developers
+            developerId   : 'mahongyin',
+            developerName : 'mahongyin',
+            developerEmail: 'smallajax@foxmail.com',
+
+            // bintray
+            binrayLibrary : "zbar-camera",
+            bintrayRepo   : "maven",
+            bintrayUser   : 'yolanda',
+            bintrayLicense: "Apache-2.0"
+    ]
+
+    dependencies = [
+
+    ]
+}
