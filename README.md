@@ -104,7 +104,7 @@ compile 'com.mahongyin:zbar-camera:1.0.0'
   <type>pom</type>
 </dependency>
 ```
-
+[![](https://jitpack.io/v/1976222027/zbar-android-sdk.svg)](https://jitpack.io/#1976222027/zbar-android-sdk)
 This is a simple example in Activity:
 
 `activity_scan.xml`
