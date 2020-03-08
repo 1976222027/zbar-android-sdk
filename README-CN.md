@@ -16,7 +16,7 @@ libiconv下载: [https://www.gnu.org/software/libiconv](https://www.gnu.org/soft
 
 [我的主页：](http://github.com/1976222027)
 [我的博客：](https://www.jianshu.com/u/aba4338c7578)
-[ ![Download](https://api.bintray.com/packages/mahongyin/mylib/zbar/images/download.svg?version=1.0.0) ](https://bintray.com/mahongyin/mylib/zbar/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/mahongyin/maven/zbar/images/download.svg?version=1.0.0) ](https://bintray.com/mahongyin/maven/zbar/1.0.0/link)
 
 
 # 使用
@@ -94,13 +94,13 @@ if (!TextUtils.isEmpty(qrCodeString)) {
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:camera:1.0.0'
+compile 'com.mahongyin:zbar-camera:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
-  <artifactId>camera</artifactId>
+  <groupId>com.mahongyin</groupId>
+  <artifactId>zbar-camera</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
 </dependency>

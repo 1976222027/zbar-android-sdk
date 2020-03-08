@@ -93,13 +93,13 @@ Add dependencies:
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:camera:1.0.0'
+compile 'com.mahongyin:zbar-camera:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
-  <artifactId>camera</artifactId>
+  <groupId>com.mahongyin</groupId>
+  <artifactId>zbar-camera</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
 </dependency>
