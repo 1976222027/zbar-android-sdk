@@ -102,9 +102,10 @@ public class QRScanActivity extends AppCompatActivity {
     public void openFlashLight() {
 
         if (camera == null) {
-            return;
+//            return;
+            camera = CameraManager.getCamera();
         }
-        camera = CameraManager.getCamera();
+//        camera = CameraManager.getCamera();
         Camera.Parameters parameter = camera.getParameters();
         parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         camera.setParameters(parameter);
@@ -115,7 +116,8 @@ public class QRScanActivity extends AppCompatActivity {
      */
     public void closeFlashLight() {
         if (camera == null) {
-            return;
+//            return;
+            camera = CameraManager.getCamera();
         }
         Camera.Parameters parameter = camera.getParameters();
         parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);

@@ -90,7 +90,7 @@ publish {
 }
 //Terminal:gradlew clean build bintrayUpload -PbintrayUser=这里填你的JCenter账号 -PbintrayKey=这里填你的APIKey -PdryRun=false
 
-
+//构建so
 tasks.withType(JavaCompile) {
     compileTask -> compileTask.dependsOn CopyToJniLibs
 }
@@ -105,6 +105,7 @@ task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
             "NDK_APPLICATION_MK=$projectDir.absolutePath\\src\\main\\jni\\Application.mk"
     //你自己的mk文件目录
 }
+//shell:ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
 
 // copy so库到指定的目录
 task CopyToJniLibs(type: Copy, dependsOn: 'ndkBuild', description: 'copy the native libs to jniLibs') {

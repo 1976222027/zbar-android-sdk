@@ -1,7 +1,7 @@
 Zbar and libiconv are based on `LGPL-2.1` open source, based on `LGPL-2.1`, I organized the Android platform for the ZBar, to facilitate the use of developers.
 
-[中文文档](./README-CN.md)
-
+[中文文档](./README-CN.md)遵循LGPL-2.1开源协议（其实不太懂，有问题可以联系）
+fork自[yanzhenjie](https://github.com/yanzhenjie)、经编译后封装的`Zbar`：
 Most Android developers are relatively unfamiliar to jni, especially in the compilation of Zbar need to compile libiconv, so I have sorted out the full jni code.
 
 I have the Zbar available, the following you can choose to use:
@@ -104,7 +104,7 @@ compile 'com.mahongyin:zbar-camera:1.0.0'
   <type>pom</type>
 </dependency>
 ```
-[![](https://jitpack.io/v/1976222027/zbar-android-sdk.svg)](https://jitpack.io/#1976222027/zbar-android-sdk)
+
 This is a simple example in Activity:
 
 `activity_scan.xml`
@@ -132,7 +132,33 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     mPreview = (CameraPreview) findViewById(R.id.capture_preview);
     mPreview.setScanCallback(callback);
 }
+  /**
+     * open light
+     */
+    public void openFlashLight() {
 
+        if (camera == null) {
+            //return;
+             camera = CameraManager.getCamera();
+        }
+
+        Camera.Parameters parameter = camera.getParameters();
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        camera.setParameters(parameter);
+    }
+
+    /**
+     * close light
+     */
+    public void closeFlashLight() {
+        if (camera == null) {
+            //return;
+             camera = CameraManager.getCamera();
+        }
+        Camera.Parameters parameter = camera.getParameters();
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        camera.setParameters(parameter);//camera.getCamera()
+    }
 /**
  * Start camera.
  */
@@ -167,8 +193,6 @@ protected void onPause() {
 
 The actual development you need to pay attention to the `RunTime Permission`, the camera is occupied and so on.  
 
-For RunTime-Permission, I recommend you use AndPermission:  
-[https://github.com/mahongyin/AndPermission](https://github.com/mahongyin/AndPermission)
 
 Such as whether the camera started successfully:
 ```java

@@ -28,6 +28,11 @@ allprojects {
             failOnError false
         }
     }
+	    //避免javadoc的检查，防止上传时报错
+ //   tasks.withType(Javadoc) {
+  //      options.addStringOption('Xdoclint:none', '-quiet')
+  //      options.addStringOption('encoding', 'UTF-8')
+  //  }
 }
 
 task clean(type: Delete) {

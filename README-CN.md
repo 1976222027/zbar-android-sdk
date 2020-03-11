@@ -2,7 +2,9 @@
 
 大多数的`Android`开发者不熟悉JNI，并且在编译原生`Zbar`时需要先编译`libiconv`，而且会遇到很多错误和难点，大多数人在网上七拼八凑的找到了别人编译好的 **so** 文件，但是很多人都遇到了错误导致没法修改，现在我把`Zbar`和`libiconv`的源码整理好了，并且修复了在编译时的错误和**中文识别时乱码**的问题。
 
-修改自严振杰、经编译后封装的`Zbar`：
+fork自[yanzhenjie](https://github.com/yanzhenjie)、经编译后封装的`Zbar`：
+更新》camera 增加了闪光灯支持
+
 
 1. **可以直接ndk-build编译的JNI源码**
 2. **可以单独使用的Jar包和so文件**
@@ -133,7 +135,33 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     mPreview = (CameraPreview) findViewById(R.id.capture_preview);
     mPreview.setScanCallback(callback);
 }
+  /**
+     * 打开闪光灯
+     */
+    public void openFlashLight() {
 
+        if (camera == null) {
+            //return;
+             camera = CameraManager.getCamera();
+        }
+
+        Camera.Parameters parameter = camera.getParameters();
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        camera.setParameters(parameter);
+    }
+
+    /**
+     * 关闭闪光灯
+     */
+    public void closeFlashLight() {
+        if (camera == null) {
+            //return;
+             camera = CameraManager.getCamera();
+        }
+        Camera.Parameters parameter = camera.getParameters();
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        camera.setParameters(parameter);//camera.getCamera()
+    }
 /**
  * 打开相机并开始扫描。
  */
