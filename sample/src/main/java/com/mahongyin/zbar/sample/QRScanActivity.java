@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -40,9 +41,7 @@ public class QRScanActivity extends AppCompatActivity {
     private ValueAnimator mScanAnimator;
     private CameraPreview mPreviewView;
     Context context;
-    Camera camera;//zbar 已经初始化了吧
-    //    CameraManager mCameraManager;
-    //FlashUtils utils;
+    // Camera对象 zbar CameraPreview 已经初始化了吧
     Switch flashControl;
     String mCameraId;
 
@@ -64,77 +63,12 @@ public class QRScanActivity extends AppCompatActivity {
         flashControl = findViewById(R.id.flash_control);
         flashControl.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {//打开
-                // utils.open();
-                // openFlashLight();
-                try {
-                    // camera = Camera.open();
-//                    camera= mCameraManager.getCamera();
-                    camera = CameraManager.getCamera();
-                    Camera.Parameters mParameters;
-                    mParameters = camera.getParameters();
-                    mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    camera.setParameters(mParameters);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
+                mPreviewView.openLight();
             } else {
-                // closeFlashLight();
-                // utils.close();
-                try {
-                    Camera.Parameters mParameters;
-                    mParameters = camera.getParameters();
-                    mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(mParameters);
-                    //camera.release();//扫码还要用 销毁时再re
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
+                mPreviewView.closeLight();
             }
         });
 
-    }
-
-    /**
-     * 打开闪光灯
-     */
-    public void openFlashLight() {
-
-        if (camera == null) {
-//            return;
-            camera = CameraManager.getCamera();
-        }
-//        camera = CameraManager.getCamera();
-        Camera.Parameters parameter = camera.getParameters();
-        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        camera.setParameters(parameter);
-    }
-
-    /**
-     * 关闭闪光灯
-     */
-    public void closeFlashLight() {
-        if (camera == null) {
-//            return;
-            camera = CameraManager.getCamera();
-        }
-        Camera.Parameters parameter = camera.getParameters();
-        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        camera.setParameters(parameter);//camera.getCamera()
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (camera != null) {
-//            camera.setPreviewCallback(null);
-//            camera.stopPreview();
-            camera.release();
-            camera = null;
-            //回收camera
-            //页面销毁时关闭灯光
-        }
     }
 
     /**
@@ -152,6 +86,7 @@ public class QRScanActivity extends AppCompatActivity {
             resultIntent.putExtras(bundle);
             setResult(RESULT_OK, resultIntent);
             finish();
+            Log.d("scan",result);
         }
     };
 

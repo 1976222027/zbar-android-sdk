@@ -13,7 +13,7 @@ public final class CameraManager {
 
     private final CameraConfiguration mConfiguration;
 
-    private static Camera mCamera;// ADD: 2019/2/13 新添加:增加static
+    private  Camera mCamera;// ADD: 2019/2/13 新添加:增加static  20200311取消
 
     public CameraManager(Context context) {
         this.mConfiguration = new CameraConfiguration(context);
@@ -50,7 +50,6 @@ public final class CameraManager {
         }
 
     }
-
     /**
      * Closes the camera driver if still in use.
      */
@@ -132,7 +131,7 @@ public final class CameraManager {
      * 获取相机的方法 //调用闪光灯需要和扫码同一camera
      * @return mCamera
      */
-    public static Camera getCamera(){
+    public  Camera getCamera(){
         return mCamera;
     }
     /*
@@ -158,7 +157,6 @@ public final class CameraManager {
      * 关闭闪光灯//关闭camera闪光灯
      */
     public void closeFlashLight() {
-
             if (mCamera == null) {
                 return;
             }
@@ -169,7 +167,19 @@ public final class CameraManager {
 //        mCamera.stopPreview();//扫码还要用camera 单纯闪光灯 不要这句
 //        mCamera = null;
 
-//        mCamera.release();//TODO 调用时在页面销毁onDestroy()里再加这1句
+//        mCamera.release();//ADD 调用时在页面销毁onDestroy()里再加这1句  closeDriver()已经加
+//        @Override
+//        protected void onDestroy() {
+//            super.onDestroy();
+//            if (camera != null) {
+////            camera.setPreviewCallback(null);
+////            camera.stopPreview();
+//                camera.release();
+//                camera = null;
+//                //回收camera
+//                //页面销毁时关闭灯光
+//            }
+//        }
 
     }
 

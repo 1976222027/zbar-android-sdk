@@ -103,6 +103,14 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
     }
+//打开闪光灯
+    public void openLight() {
+        mCameraManager.openFlashLight();
+    }
+//关闭闪光灯
+    public void closeLight() {
+        mCameraManager.closeFlashLight();
+    }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {

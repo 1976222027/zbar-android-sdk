@@ -33,6 +33,8 @@ libiconv下载: [https://www.gnu.org/software/libiconv](https://www.gnu.org/soft
 
 * Gradle
 ```groovy
+implementation 'com.mahongyin.zbar:zbar:1.0.1'
+//或者
 implementation 'com.mahongyin:zbar:1.0.0'
 ```
 * Maven
@@ -96,13 +98,13 @@ if (!TextUtils.isEmpty(qrCodeString)) {
 
 * Gradle
 ```groovy
-compile 'com.mahongyin:zbar-camera:1.0.0'
+compile 'com.mahongyin.zbar:camera:1.0.1'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin</groupId>
-  <artifactId>zbar-camera</artifactId>
+  <groupId>com.mahongyin.zbar</groupId>
+  <artifactId>camera</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
 </dependency>
@@ -139,28 +141,15 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
      * 打开闪光灯
      */
     public void openFlashLight() {
+mPreview.openLight();
 
-        if (camera == null) {
-            //return;
-             camera = CameraManager.getCamera();
-        }
-
-        Camera.Parameters parameter = camera.getParameters();
-        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        camera.setParameters(parameter);
     }
 
     /**
      * 关闭闪光灯
      */
     public void closeFlashLight() {
-        if (camera == null) {
-            //return;
-             camera = CameraManager.getCamera();
-        }
-        Camera.Parameters parameter = camera.getParameters();
-        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        camera.setParameters(parameter);//camera.getCamera()
+   mPreview.closeLight();
     }
 /**
  * 打开相机并开始扫描。
