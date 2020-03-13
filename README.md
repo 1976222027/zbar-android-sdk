@@ -28,14 +28,12 @@ Add dependencies:
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:zbar:1.0.1'
-//or
-compile 'com.mahongyin:zbar:1.0.0'
+compile 'com.mhy.zbar:zbar:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
+  <groupId>com.mhy.zbar</groupId>
   <artifactId>zbar</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
@@ -95,12 +93,12 @@ Add dependencies:
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:camera:1.0.1'
+compile 'com.mhy.zbr:camera:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
+  <groupId>com.mhy.zbar</groupId>
   <artifactId>camera</artifactId>
   <version>1.0.0</version>
   <type>pom</type>

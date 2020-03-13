@@ -1,7 +1,8 @@
 apply plugin: rootProject.ext.plugins.library
 //apply plugin: 'maven'
 //apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.novoda.bintray-release'//jcent
+//apply plugin: 'com.novoda.bintray-release'//jcent
+
 //apply plugin: 'com.github.dcendents.android-maven'
 //group = 'com.github.1976222027'//gradlew install
 android {
@@ -39,20 +40,20 @@ android {
     }
 }
 //jcent
-publish {
-    repoName = 'maven'//maven仓库名
-    userOrg = 'mahongyin'// 用户所在组织,好像是用户名
-    groupId = 'com.mahongyin.zbar'// 包名
-    artifactId = 'camera'// library项目的名字
-    publishVersion = '1.0.1'// 版本
-    desc = 'build zbar camera'//不中文
-    website = "https://github.com/1976222027/zbar-android-sdk"//你的开源地址，注意，一定要用GitHub地址
-}
+//publish {
+//    repoName = 'maven'//maven仓库名
+//    userOrg = 'mahongyin'// 用户所在组织,好像是用户名
+//    groupId = 'com.mahongyin.zbar'// 包名
+//    artifactId = 'camera'// library项目的名字
+//    publishVersion = '1.0.1'// 版本
+//    desc = 'build zbar camera'//不中文
+//    website = "https://github.com/1976222027/zbar-android-sdk"//你的开源地址，注意，一定要用GitHub地址
+//}
 //gradlew clean build bintrayUpload -PbintrayUser=mahongyin -PbintrayKey=KEY -PdryRun=false
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation project(path: ':zbar')
-    implementation  'com.mahongyin.zbar:zbar:1.0.1'
+    implementation project(path: ':zbar')
+//    implementation  'com.mahongyin:zbar:1.0.0'
 }
 

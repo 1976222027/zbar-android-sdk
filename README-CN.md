@@ -33,14 +33,12 @@ libiconv下载: [https://www.gnu.org/software/libiconv](https://www.gnu.org/soft
 
 * Gradle
 ```groovy
-implementation 'com.mahongyin.zbar:zbar:1.0.1'
-//或者
-implementation 'com.mahongyin:zbar:1.0.0'
+implementation 'com.mhy.zbar:zbar:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
+  <groupId>com.mhy.zbr</groupId>
   <artifactId>zbar</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
@@ -98,12 +96,12 @@ if (!TextUtils.isEmpty(qrCodeString)) {
 
 * Gradle
 ```groovy
-compile 'com.mahongyin.zbar:camera:1.0.1'
+compile 'com.mhy.zbar:camera:1.0.0'
 ```
 * Maven
 ```groovy
 <dependency>
-  <groupId>com.mahongyin.zbar</groupId>
+  <groupId>com.mhy.zbar</groupId>
   <artifactId>camera</artifactId>
   <version>1.0.0</version>
   <type>pom</type>
