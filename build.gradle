@@ -1,5 +1,24 @@
-apply from: "config.gradle"
+ext {
+    plugins = [
+            library    : 'com.android.library',
+            application: 'com.android.application',
+            maven      : 'com.github.dcendents.android-maven',
+            bintray    : 'com.jfrog.bintray'
+    ]
 
+    android = [
+            applicationId       : "com.mahongyin.zbar.sample",
+            compileSdkVersion   : 28,
+            buildToolsVersion   : "30.0.3",
+
+            libraryMinSdkVersion: 16,
+            sampleMinSdkVersion : 19,
+            targetSdkVersion    : 28,
+
+            versionCode         : 100,
+            versionName         : "1.0.0",
+    ]
+}
 buildscript {
     repositories {
         jcenter()
@@ -7,9 +26,11 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'//lib2aar
-//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'//jitpack
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'//jitpack
         classpath 'com.novoda:bintray-release:0.9.1'
+//        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.9.5"
     }
 }
 
@@ -17,22 +38,20 @@ allprojects {
     repositories {
         jcenter()
         google()
-//        maven {url 'https://dl.bintray.com/mahongyin/maven'}
+        maven {url 'http://tencent.a1000.top:8082/artifactory/local/'}
 //        maven { url "https://jitpack.io" }
     }
-    tasks.withType(Javadoc) {
+    tasks.withType(Javadoc) {  //避免javadoc的检查，防止上传时报错
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
         options {
             encoding "UTF-8"
             charSet 'UTF-8'
-            links "http://docs.oracle.com/javase/8/docs/api"
+            links "http://docs.oracle.com/javase/7/docs/api"
             failOnError false
         }
     }
-	    //避免javadoc的检查，防止上传时报错
- //   tasks.withType(Javadoc) {
-  //      options.addStringOption('Xdoclint:none', '-quiet')
-  //      options.addStringOption('encoding', 'UTF-8')
-  //  }
+
 }
 
 task clean(type: Delete) {

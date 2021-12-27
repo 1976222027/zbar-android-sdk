@@ -8,31 +8,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
-import com.mahongyin.zbar.camera.CameraManager;
 import com.mahongyin.zbar.camera.CameraPreview;
 import com.mahongyin.zbar.camera.ScanCallback;
-import com.mahongyin.zbar.sample.R;
 
-/**
- * <p>Scan UI.</p>
- * Created by Yan Zhenjie on 2017/5/10.
- */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class QRScanActivity extends AppCompatActivity {
     public static final int REQUEST_CAMERA = 120; //相机请求码
@@ -45,7 +37,6 @@ public class QRScanActivity extends AppCompatActivity {
     Switch flashControl;
     String mCameraId;
 
-    @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {

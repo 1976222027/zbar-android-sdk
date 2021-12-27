@@ -1,5 +1,31 @@
 apply plugin: rootProject.ext.plugins.library
-apply plugin: 'com.novoda.bintray-release'//jcent
+//apply plugin: 'com.novoda.bintray-release'//jcent
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply plugin: 'maven'
+
+def MAVEN_LOCAL_PATH ='http://tencent.a1000.top:8082/artifactory/local'
+def ARTIFACT_ID = "zbar"//project.getName()
+def VERSION_NAME = '1.0.0'
+def GROUP_ID = 'com.mahongyin.zbar'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url:MAVEN_LOCAL_PATH ){
+                authentication(userName: "${MAVEN_USER}", password:"${MAVEN_PASSWORD}")
+            }
+            pom.project {
+                groupId GROUP_ID
+                artifactId ARTIFACT_ID
+                version VERSION_NAME
+                packaging 'aar'
+            }
+        }
+    }
+}
+//gradlew clean assembleRelease artifactoryPublish --stacktrace --info
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -24,7 +50,11 @@ android {
     }
 
     resourcePrefix 'zbar_'
-
+//    externalNativeBuild {
+//        ndkBuild  {
+//            path 'src/main/jni/Android.mk'
+//        }
+//    }
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -43,22 +73,21 @@ android {
 
 
 //jcent
-publish {
-
-    repoName = 'maven'//maven仓库名
-    userOrg = 'mahongyin'// 用户所在组织,好像是用户名
-    groupId = 'com.mahongyin.zbar'// 包名
-    artifactId = 'zbar'// library项目的名字
-    publishVersion = '1.0.1'// 版本
-    desc = 'build zbar SDK'//不中文
-    website = "https://github.com/1976222027/zbar-android-sdk"//你的开源地址，注意，一定要用GitHub地址
-}
+//publish {
+//    repoName = 'maven'//maven仓库名
+//    userOrg = 'mahongyin'// 用户所在组织,好像是用户名
+//    groupId = 'com.mahongyin.zbar'// 包名
+//    artifactId = 'zbar'// library项目的名字
+//    publishVersion = '1.0.1'// 版本
+//    desc = 'build zbar SDK'//不中文
+//    website = "https://github.com/1976222027/zbar-android-sdk"//你的开源地址，注意，一定要用GitHub地址
+//}
 //Terminal:gradlew clean build bintrayUpload -PbintrayUser=这里填你的JCenter账号 -PbintrayKey=这里填你的APIKey -PdryRun=false
 
 //构建so
-tasks.withType(JavaCompile) {
-    compileTask -> compileTask.dependsOn CopyToJniLibs
-}
+//tasks.withType(JavaCompile) {
+//    compileTask -> compileTask.dependsOn CopyToJniLibs
+//}
 //构建so
 task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
     Properties properties = new Properties()
@@ -83,3 +112,67 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+def packageName = 'com.mahongyin.zbar'
+def libraryVersion = '1.0.0'
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId packageName //   一般为包名
+            version = libraryVersion //  当前library版本号
+            artifactId project.getName() // 一般为library module名字
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+        }
+    }
+}
+artifactory {
+    contextUrl = 'http://tencent.a1000.top:8082/artifactory'  // 表示要发布到哪里去，上下文连接
+    publish {
+        repository {
+            repoKey = 'local'  // artifactory分支，可在artifactory查看 libs-release-local
+            username = MAVEN_USER  // artifactory 默认管理员
+            password = MAVEN_PASSWORD  // artifactory 默认管理员密码
+        }
+        defaults {
+            publications('aar')  // 表示要发布的文件类型
+            publishArtifacts = true
+            properties = ['qa.level': 'basic', 'dev.team': 'core']
+            publishPom = true  // 是否将自动生成的pom.xml文件发布到Artifactory
+        }
+    }
+}
+//gradlew assembleRelease artifactoryPublish
+
+task testConfig {
+    doLast {
+        configurations.implementation.allDependencies.all {
+            println it
+        }
+    }
+}
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options {
+        failOnError false
+        encoding "UTF-8"
+        charSet "UTF-8"
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+    android.libraryVariants.all { variant ->
+        if (variant.name == 'release') {
+            owner.classpath += variant.javaCompile.classpath
+        }
+    }
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
