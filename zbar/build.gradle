@@ -5,7 +5,7 @@ apply plugin: 'maven-publish'//jitpack
 apply plugin: 'com.jfrog.artifactory'
 /*****************jitpack***************/
 def VERSION = '1.0.0'
-def GROUP = 'com.gitee.mahongyin'
+def GROUP = 'com.github.mahongyin'
 def ART_ID = "zbar"//project.getName()
 group = GROUP
 version = VERSION
