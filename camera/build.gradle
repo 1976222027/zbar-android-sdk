@@ -1,13 +1,13 @@
 apply plugin: rootProject.ext.plugins.library
-//apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
 //apply plugin: 'com.novoda.bintray-release'//jcent
 apply plugin: 'maven'
 apply plugin: 'maven-publish'//jitpack
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.artifactory'
 /*****************jitpack***************/
 def VERSION = '1.0.0'
-def GROUP = 'com.github.mahongyin'
+def GROUP = 'com.github.1976222027'
 def ART_ID = "camera"//project.getName()
 group = GROUP
 version = VERSION
