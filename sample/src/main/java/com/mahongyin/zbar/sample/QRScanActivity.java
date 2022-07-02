@@ -47,6 +47,14 @@ public class QRScanActivity extends AppCompatActivity {
         mPreviewView = (CameraPreview) findViewById(R.id.capture_preview);
         mScanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
         mScanLine = (ImageView) findViewById(R.id.capture_scan_line);
+        if (mScanAnimator == null) {
+            int height = mScanCropView.getMeasuredHeight() - 25;
+            mScanAnimator = ObjectAnimator.ofFloat(mScanLine, "translationY", 0F, height).setDuration(3000);
+            mScanAnimator.setInterpolator(new LinearInterpolator());
+            mScanAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            mScanAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            checkReadPermission(Manifest.permission.CAMERA, REQUEST_CAMERA);
+        }
         mPreviewView.setScanCallback(resultCallback);
 //        mCameraManager = new CameraManager(context);
         //utils = new FlashUtils(this);
@@ -147,14 +155,6 @@ public class QRScanActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (mScanAnimator == null) {
-            int height = mScanCropView.getMeasuredHeight() - 25;
-            mScanAnimator = ObjectAnimator.ofFloat(mScanLine, "translationY", 0F, height).setDuration(3000);
-            mScanAnimator.setInterpolator(new LinearInterpolator());
-            mScanAnimator.setRepeatCount(ValueAnimator.INFINITE);
-            mScanAnimator.setRepeatMode(ValueAnimator.REVERSE);
-            checkReadPermission(Manifest.permission.CAMERA, REQUEST_CAMERA);
-        }
     }
 }
 

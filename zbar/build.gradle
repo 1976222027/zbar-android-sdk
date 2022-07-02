@@ -1,31 +1,49 @@
 apply plugin: rootProject.ext.plugins.library
 //apply plugin: 'com.novoda.bintray-release'//jcent
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-
 apply plugin: 'maven'
-
+apply plugin: 'maven-publish'//jitpack
+apply plugin: 'com.jfrog.artifactory'
+/*****************jitpack***************/
+def VERSION = '1.0.0'
+def GROUP = 'com.gitee.mahongyin'
+def ART_ID = "zbar"//project.getName()
+group = GROUP
+version = VERSION
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = ART_ID
+                version = VERSION
+            }
+        }
+    }
+}
+//发布到artifactory
 def MAVEN_LOCAL_PATH ='http://tencent.a1000.top:8082/artifactory/local'
 def ARTIFACT_ID = "zbar"//project.getName()
 def VERSION_NAME = '1.0.0'
 def GROUP_ID = 'com.mahongyin.zbar'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url:MAVEN_LOCAL_PATH ){
-                authentication(userName: "${MAVEN_USER}", password:"${MAVEN_PASSWORD}")
-            }
-            pom.project {
-                groupId GROUP_ID
-                artifactId ARTIFACT_ID
-                version VERSION_NAME
-                packaging 'aar'
-            }
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url:MAVEN_LOCAL_PATH ){
+//                authentication(userName: "${MAVEN_USER}", password:"${MAVEN_PASSWORD}")
+//            }
+//            pom.project {
+//                groupId GROUP_ID
+//                artifactId ARTIFACT_ID
+//                version VERSION_NAME
+//                packaging 'aar'
+//            }
+//        }
+//    }
+//}
 //gradlew clean assembleRelease artifactoryPublish --stacktrace --info
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -112,35 +130,35 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-def packageName = 'com.mahongyin.zbar'
-def libraryVersion = '1.0.0'
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId packageName //   一般为包名
-            version = libraryVersion //  当前library版本号
-            artifactId project.getName() // 一般为library module名字
-            // Tell maven to prepare the generated "*.aar" file for publishing
-            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
-        }
-    }
-}
-artifactory {
-    contextUrl = 'http://tencent.a1000.top:8082/artifactory'  // 表示要发布到哪里去，上下文连接
-    publish {
-        repository {
-            repoKey = 'local'  // artifactory分支，可在artifactory查看 libs-release-local
-            username = MAVEN_USER  // artifactory 默认管理员
-            password = MAVEN_PASSWORD  // artifactory 默认管理员密码
-        }
-        defaults {
-            publications('aar')  // 表示要发布的文件类型
-            publishArtifacts = true
-            properties = ['qa.level': 'basic', 'dev.team': 'core']
-            publishPom = true  // 是否将自动生成的pom.xml文件发布到Artifactory
-        }
-    }
-}
+//def packageName = 'com.mahongyin.zbar'
+//def libraryVersion = '1.0.0'
+//publishing {
+//    publications {
+//        aar(MavenPublication) {
+//            groupId packageName //   一般为包名
+//            version = libraryVersion //  当前library版本号
+//            artifactId project.getName() // 一般为library module名字
+//            // Tell maven to prepare the generated "*.aar" file for publishing
+//            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+//        }
+//    }
+//}
+//artifactory {
+//    contextUrl = 'http://tencent.a1000.top:8082/artifactory'  // 表示要发布到哪里去，上下文连接
+//    publish {
+//        repository {
+//            repoKey = 'local'  // artifactory分支，可在artifactory查看 libs-release-local
+//            username = MAVEN_USER  // artifactory 默认管理员
+//            password = MAVEN_PASSWORD  // artifactory 默认管理员密码
+//        }
+//        defaults {
+//            publications('aar')  // 表示要发布的文件类型
+//            publishArtifacts = true
+//            properties = ['qa.level': 'basic', 'dev.team': 'core']
+//            publishPom = true  // 是否将自动生成的pom.xml文件发布到Artifactory
+//        }
+//    }
+//}
 //gradlew assembleRelease artifactoryPublish
 
 task testConfig {
